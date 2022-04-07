@@ -1,7 +1,9 @@
 #include "raylib.h"
 #include "crakanoid.h"
+#include "sound.h"
 
 using namespace crakanoid;
+using namespace sound;
 
 int main(void)
 {
@@ -17,15 +19,9 @@ int main(void)
     InitAudioDevice();              // Initialize audio device
     SetAudioStreamBufferSizeDefault(MAX_SAMPLES_PER_UPDATE);
 
-    //convert string to char* and play the song
-	vector<string> songPlayedOnce{};
-    string songPlayPath = randomSong(songPlayedOnce);
-    int n = songPlayPath.length();
-    char char_array[n + 1];
-    strcpy(char_array, songPlayPath.c_str());
-    cout << "char: " << char_array << endl;
-    Music songPlayed = LoadMusicStream(char_array);
-    PlayMusicStream(songPlayed);
+    SongPlayer jukebox;
+    jukebox.randomSongPath();
+    jukebox.playSong();
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -35,8 +31,12 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        UpdateMusicStream(songPlayed);   // Update music buffer with new stream data
-
+    	jukebox.updateStream();
+    	if(!jukebox.isSongPlaying())
+    	{
+    		jukebox.randomSongPath();
+    		jukebox.playSong();
+    	}
 
         // Draw
         //----------------------------------------------------------------------------------
