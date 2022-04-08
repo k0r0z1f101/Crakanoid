@@ -11,8 +11,6 @@ int main(void)
 
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 1600;
-    const int screenHeight = 900;
 
     InitWindow(screenWidth, screenHeight, "Crakanoid");
 
@@ -22,6 +20,8 @@ int main(void)
     SongPlayer jukebox;
     jukebox.randomSongPath();
     jukebox.playSong();
+
+    Spaceship craker;
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -38,11 +38,18 @@ int main(void)
     		jukebox.playSong();
     	}
 
+    	craker.moveShip();
+
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
         	ClearBackground(RAYWHITE);
+
+        	string songName = jukebox.getSongPlaying();
+        	DrawText(songName.c_str(), 50, 20, 12, RED);
+
+        	craker.DrawShip();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

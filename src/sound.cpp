@@ -37,12 +37,7 @@ namespace sound
 
 	void SongPlayer::playSong()
 	{
-		//convert string to char*
-		int n = songPlayPath.length();
-		char musicStream[n + 1];
-		strcpy(musicStream, songPlayPath.c_str());
-
-		songPlayed = LoadMusicStream(musicStream); //load the song from the path to a private member
+		songPlayed = LoadMusicStream(songPlayPath.c_str()); //load the song from the path to a private member
 		PlayMusicStream(songPlayed); //start the loaded song
 		songElapsedTime = 0.0f; //reset the time the current song has played for
 	}
@@ -69,6 +64,11 @@ namespace sound
 	bool SongPlayer::isSongPlaying()
 	{
 		return IsMusicStreamPlaying(songPlayed);
+	}
+
+	string SongPlayer::getSongPlaying()
+	{
+		return songPlayPath;
 	}
 
 	SongPlayer::~SongPlayer()

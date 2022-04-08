@@ -35,6 +35,7 @@ namespace sound
 		void playSong(); //play the song in songPlayPath
 		void updateStream(); //update the audio stream
 		bool isSongPlaying(); //return true if the song is currently playing
+		string getSongPlaying(); //return the path to the song playing
 		~SongPlayer();
 	};
 }
