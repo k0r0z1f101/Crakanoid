@@ -12,20 +12,24 @@ namespace sound
 	void SongPlayer::randomSongPath()
 	{
 		vector<string> songPaths = {}; //paths to songs that haven't played yet
-		directory_iterator SONG_DIR = directory_iterator(spPATH); //content of the song folder (tried this as a static const and the content of directory_iterator seems to be destroyed after being iterated in a for loop)
+		int count;
+		char** files = GetDirectoryFiles(spPATH.c_str(), &count);
 
 		//loop through songs in the song folder and build a list of paths to songs that have not played yet
-		for(const auto & file : SONG_DIR)
-		{
-			auto testPath = std::find(songPlayedOnce.begin(), songPlayedOnce.end(), file.path());
+//		printf("Count: %i\n", count);
+		for (int i = 0; i < count; i++) {
+//		    printf("File: %s\n", files[i]);
+			auto testPath = std::find(songPlayedOnce.begin(), songPlayedOnce.end(), files[i]);
 			if(testPath != std::end(songPlayedOnce))
 			{
 			}
 			else
 			{
-				songPaths.push_back(file.path());
+				songPaths.push_back(files[i]);
 			}
 		}
+		ClearDirectoryFiles();
+
 		//if there are still song that haven't played, choose one randomly
 		if(songPaths.size() != 0)
 		{
@@ -37,7 +41,7 @@ namespace sound
 
 	void SongPlayer::playSong()
 	{
-		songPlayed = LoadMusicStream(songPlayPath.c_str()); //load the song from the path to a private member
+		songPlayed = LoadMusicStream((spPATH + songPlayPath).c_str()); //load the song from the path to a private member
 		PlayMusicStream(songPlayed); //start the loaded song
 		songElapsedTime = 0.0f; //reset the time the current song has played for
 	}
