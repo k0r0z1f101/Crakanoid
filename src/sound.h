@@ -26,6 +26,8 @@ namespace sound
 		static const string spPATH; //path to the song folder
 		Music songPlayed; //song being played; raylib CDT
 		float songElapsedTime; //time passed in song since start of song in seconds
+		float musicVolume; //volume of the music streams
+
 
 	public:
 		SongPlayer();
@@ -34,6 +36,7 @@ namespace sound
 		void updateStream(); //update the audio stream
 		bool isSongPlaying(); //return true if the song is currently playing
 		string getSongPlaying(); //return the path to the song playing
+		void changeVolume(); //change volume of music
 		~SongPlayer();
 	};
 }

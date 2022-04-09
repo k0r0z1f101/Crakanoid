@@ -23,6 +23,9 @@ int main(void)
 
     Spaceship craker;
 
+    Ball ball1 = Ball(craker, craker.GetShipPosition());
+    Ball ball2 = Ball();
+
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 
@@ -31,6 +34,7 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
+    	jukebox.changeVolume();
     	jukebox.updateStream();
     	if(!jukebox.isSongPlaying())
     	{
@@ -38,7 +42,9 @@ int main(void)
     		jukebox.playSong();
     	}
 
-    	craker.moveShip();
+    	craker.MoveShip();
+
+    	ball1.MoveBall(craker);
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -50,6 +56,9 @@ int main(void)
         	DrawText(songName.c_str(), 50, 20, 12, RED);
 
         	craker.DrawShip();
+
+        	ball1.DrawBall();
+        	ball2.DrawBall();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

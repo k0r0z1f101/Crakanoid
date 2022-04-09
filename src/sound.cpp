@@ -7,6 +7,8 @@ namespace sound
 
 	SongPlayer::SongPlayer()
 	{
+		songElapsedTime = {};
+		musicVolume = 0.1f;
 	}
 
 	void SongPlayer::randomSongPath()
@@ -16,14 +18,16 @@ namespace sound
 		char** files = GetDirectoryFiles(spPATH.c_str(), &count);
 
 		//loop through songs in the song folder and build a list of paths to songs that have not played yet
-//		printf("Count: %i\n", count);
 		for (int i = 0; i < count; i++) {
-//		    printf("File: %s\n", files[i]);
+
+			//check if file is a valid format, if not continue to next loop iteration
+			char *output = NULL;
+			output = strstr (files[i],".mp3");
+			if(!output) continue;
+
+			//add to list if song has not played yet
 			auto testPath = std::find(songPlayedOnce.begin(), songPlayedOnce.end(), files[i]);
-			if(testPath != std::end(songPlayedOnce))
-			{
-			}
-			else
+			if(testPath == std::end(songPlayedOnce))
 			{
 				songPaths.push_back(files[i]);
 			}
@@ -33,15 +37,20 @@ namespace sound
 		//if there are still song that haven't played, choose one randomly
 		if(songPaths.size() != 0)
 		{
-			int randNumber = rand() % songPaths.size(); //choose a random song from the list of song that have not played
+			int randNumber = GetRandomValue(0, int(songPaths.size()-1)); //choose a random song from the list of song that have not played
 			songPlayPath = songPaths[randNumber]; //store the chosen song path in a class private string
 			songPlayedOnce.push_back(songPaths[randNumber]); //add the song to the list of song played
+		}
+		else
+		{
+			songPlayedOnce = {}; //reset the list of song already played so we can play them again
 		}
 	}
 
 	void SongPlayer::playSong()
 	{
 		songPlayed = LoadMusicStream((spPATH + songPlayPath).c_str()); //load the song from the path to a private member
+		SetMusicVolume(songPlayed, musicVolume);
 		PlayMusicStream(songPlayed); //start the loaded song
 		songElapsedTime = 0.0f; //reset the time the current song has played for
 	}
@@ -73,6 +82,23 @@ namespace sound
 	string SongPlayer::getSongPlaying()
 	{
 		return songPlayPath;
+	}
+
+	void SongPlayer::changeVolume()
+	{
+		if(IsKeyPressed(KEY_W))
+			musicVolume += 0.05f;
+		else if (IsKeyDown(KEY_W))
+			musicVolume += 0.005f;
+
+		if(IsKeyPressed(KEY_S))
+			musicVolume -= 0.05f;
+		else if (IsKeyDown(KEY_S))
+			musicVolume -= 0.005f;
+
+		musicVolume = musicVolume < 0.0f ? 0.0f : (musicVolume > 1.0f ? 1.0f : musicVolume);
+
+		SetMusicVolume(songPlayed, musicVolume);
 	}
 
 	SongPlayer::~SongPlayer()

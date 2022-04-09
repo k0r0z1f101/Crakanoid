@@ -9,23 +9,37 @@ namespace crakanoid
 	Spaceship::Spaceship()
 	{
 		ssWidth = 50; //starting horizontal size
-		ssPosX = ssStartX - (ssWidth / 2); //horizontal position from the bottom
-		ssPosY = 40; //starting vertical position from the bottom
+		ssPos = { ssStartX - (ssWidth / 2), screenHeight - 40 }; //position of spaceship (h pos, v pos)
+		ssSpeed = 5; //speed in pixel of lateral movement
 		ssUpgrades = {}; //initializing upgrades list
 		ssConsumables = {}; // initializing consumables inventory
 
 	}
 	void Spaceship::DrawShip()
 	{
-		DrawRectangle(ssPosX, screenHeight - ssPosY, ssWidth, ssHeight, RED);
+		Rectangle rec;
+		rec.height = ssHeight;
+		rec.width = ssWidth;
+		rec.x = ssPos[0];
+		rec.y = ssPos[1];
+		Vector2 ori = { 0.0f, 0.0f };
+		DrawRectanglePro(rec, ori, 0.0f, RED);
 	}
-	void Spaceship::moveShip()
+	void Spaceship::MoveShip()
 	{
 		if(IsKeyDown(KEY_A))
-			--ssPosX;
+			ssPos[0] -= ssSpeed;
 
 		if(IsKeyDown(KEY_D))
-			++ssPosX;
+			ssPos[0] += ssSpeed;
+	}
+	vector<int>& Spaceship::GetShipPosition()
+	{
+		return ssPos;
+	}
+	int& Spaceship::GetShipWidth()
+	{
+		return ssWidth;
 	}
 	Spaceship::~Spaceship()
 	{
@@ -33,19 +47,60 @@ namespace crakanoid
 	}
 
 	//Bloc definitions
-	const Vector2 Bloc::bSize = { 10.0f, 5.0f }; //h size, v size
+	const Vector2 Bloc::blSize = { 10.0f, 5.0f }; //h size, v size
 	Bloc::Bloc()
+	{
+		blLifePoint = 1;
+	}
+
+	Bloc::Bloc(int x, int y, BlocColor col)
+	{
+		vector<int> blPos = { x, y }; //bloc position (h pos, v pos)
+		blColor = blocColors[col]; //bloc color
+		blLifePoint = col; //bloc life point before being destroyed
+	}
+	Bloc::~Bloc()
 	{
 
 	}
-	Bloc::Bloc(float x, float y, BlocColor col)
+
+	//Ball definitions
+	const int Ball::baRadius = 6; //radius of the ball in pixels
+
+	Ball::Ball()
 	{
-		bPos.x = x; //h pos
-		bPos.y = y; //v pos
-		bColor = blocColors[col]; //bloc color
-		bLifePoint = col; //bloc life point before being destroyed
+		baPos = { screenWidth / 2, screenHeight / 2 };
+		baVelocity = 1;
+		baAngle = 0.0f;
+		baWeight = 1;
+		baLifeTime = 0.0f;
+		baSticky = false;
 	}
-	Bloc::~Bloc()
+
+	Ball::Ball(Spaceship& paddle, vector<int> pos, int velocity, float angle, int weight, float age)
+	{
+		baPos = { paddle.GetShipPosition()[0] + paddle.GetShipWidth() / 2, paddle.GetShipPosition()[1] - baRadius };
+		baVelocity = velocity;
+		baAngle = angle;
+		baWeight = weight;
+		baLifeTime = age;
+		baSticky = true;
+	}
+
+	void Ball::MoveBall(Spaceship& paddle)
+	{
+		if(baSticky)
+		{
+			baPos = { paddle.GetShipPosition()[0] + paddle.GetShipWidth() / 2, paddle.GetShipPosition()[1] - baRadius };
+		}
+	}
+
+	void Ball::DrawBall()
+	{
+		DrawCircleGradient(baPos[0], baPos[1], baRadius, RED, GOLD);
+	}
+
+	Ball::~Ball()
 	{
 
 	}
