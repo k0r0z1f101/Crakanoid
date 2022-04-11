@@ -72,6 +72,7 @@ namespace crakanoid
 	class Ball
 	{
 		static const int baRadius; //radius of the ball in pixels
+		static const float baLineSight; //length in pixels of the line that points to the mouse
 		vector<int> baPos; //position of the ball (h pos, v pos)
 		int baVelocity; //speed of the ball
 		float baAngle; //angle of the ball
