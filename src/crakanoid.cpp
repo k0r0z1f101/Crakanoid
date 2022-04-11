@@ -98,6 +98,66 @@ namespace crakanoid
 	void Ball::DrawBall()
 	{
 		DrawCircleGradient(baPos[0], baPos[1], baRadius, RED, GOLD);
+
+		Vector2 origin = { float(baPos[0]), float(baPos[1]) };
+
+		cout << "mouse x: " << GetMouseX() << ", mouse y: " << GetMouseY() << endl;
+		cout << "mouse x - center ball x: " << GetMouseX() - baPos[0] << ", mouse y - center ball y: " << GetMouseY() - baPos[1] << endl;
+		cout << "center ball x: " << baPos[0] << ", center ball y: " << baPos[1] << endl;
+
+		Vector2 toZero = { GetMouseX() - float(baPos[0]), GetMouseY() - float(baPos[1]) };
+
+		cout << "toZero x: " << toZero.x << ", toZero y: " << toZero.y << endl;
+
+		float magnitude = sqrtf(pow(toZero.x,2) + pow(toZero.y,2));
+
+		cout << "magnitude: " << magnitude << endl;
+
+		float xNorm = toZero.x / magnitude;
+		float yNorm = toZero.y / magnitude;
+
+		cout << "xNorm: " << xNorm << "yNorm: " << yNorm << endl;
+
+		float newX = xNorm * 30.0f;
+		float newY = yNorm * 30.0f;
+
+		cout << "newX: " << newX << "newY: " << newY << endl;
+
+		Vector2 newPos = { float(baPos[0]) + newX, float(baPos[1]) + newY };
+
+		cout << "newPos X: " << newPos.x << "newPos Y: " << newPos.y << endl;
+
+//		float lineSightLength = 20.0f;
+//		DrawCircleGradient(baPos[0], baPos[1], baRadius, RED, GOLD);
+//
+//		Vector2 startPos = {float(baPos[0]), float(baPos[1])};
+//		Vector2 endPos = {float(GetMouseX()), float(GetMouseY())};
+//
+//		Vector2 diffPos = {float(baPos[0]-GetMouseX()), float(baPos[1]-GetMouseY())};
+//		Vector2 start2Pos = {0.0f,0.0f};
+//
+//		float magnitude = sqrtf(pow(diffPos.x,2) + pow(diffPos.y,2));
+//
+//		float wantedMagnitude = 100.0f;
+//		float xWeight = (diffPos.x * diffPos.x) / (diffPos.x * diffPos.x + diffPos.y * diffPos.y);
+//
+//		float newX = sqrtf(wantedMagnitude * wantedMagnitude * xWeight);
+//		float newY = sqrtf(wantedMagnitude * wantedMagnitude * (1.0f - xWeight));
+//
+//		Vector2 realEndPos = { newX, newY };
+//		cout << "new x: " << newX << ", new y: " << newY << endl;
+
+//		Vector2 endPosNorm = {diffPos.x / magnitude, diffPos.y / magnitude};
+////		Vector2 newEndPos = {-(endPosNorm.x*endPos.x),-(endPosNorm.y*endPos.y)};
+//		Vector2 newEndPos = {endPosNorm.x + float(baPos[0]) + lineSightLength,endPosNorm.y + float(baPos[1]) + lineSightLength};
+
+//		cout << "mag: " << magnitude << endl;
+//		cout << "norm x: " << endPosNorm.x << ", norm y: " << endPosNorm.y << endl;
+//		cout << "norm x+baPos[0]: " << endPosNorm.x + baPos[0]<< ", norm y: " << endPosNorm.y + baPos[1] << endl;
+
+		DrawLineEx(origin, newPos, 2.0f, YELLOW);
+//		DrawLineEx(start2Pos, realEndPos, 2.0f, YELLOW);
+//		DrawLine(baPos[0], baPos[1], baPos[0], baPos[1] - lineSightLength, YELLOW);
 	}
 
 	Ball::~Ball()
