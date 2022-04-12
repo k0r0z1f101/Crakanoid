@@ -24,7 +24,7 @@ int main(void)
     Spaceship craker;
 
     Ball ball1 = Ball(craker, craker.GetShipPosition());
-    Ball ball2 = Ball();
+//    Ball ball2 = Ball();
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ int main(void)
         	craker.DrawShip();
 
         	ball1.DrawBall();
-        	ball2.DrawBall();
+//        	ball2.DrawBall();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

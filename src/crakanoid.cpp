@@ -107,6 +107,9 @@ namespace crakanoid
 		float xNorm = toZero.x / magnitude;
 		float yNorm = toZero.y / magnitude;
 
+		float magnitude2 = sqrtf(pow(origin.x,2) + pow(origin.y,2));
+
+
 		float newX = xNorm * baLineSight;
 		float newY = yNorm * baLineSight;
 		Vector2 newPos = { float(baPos[0]) + newX, float(baPos[1]) + newY };
@@ -114,10 +117,32 @@ namespace crakanoid
 		//calculate new angle of ball
 		baAngle = asinf(toZero.y / magnitude);
 
+
 		cout << "toZero.y " << toZero.y << endl;
 		cout << "magnitude " << magnitude << endl;
 		cout << "angle " << baAngle << endl;
 		cout << "radian to degree " << baAngle * RAD2DEG << endl;
+		cout << "mouseX > origin.x " << (GetMouseX() > origin.x) << endl;
+		cout << "mouseY > origin.y " << (GetMouseY() > origin.y) << endl;
+
+		float angleDeg = baAngle * RAD2DEG;
+		if(GetMouseX() > origin.x && GetMouseY() <= origin.y)
+		{
+			angleDeg = abs(angleDeg);
+		}
+		if(GetMouseX() > origin.x && GetMouseY() > origin.y)
+		{
+			angleDeg = 360 - angleDeg;
+		}
+		if(GetMouseX() <= origin.x && GetMouseY() > origin.y)
+		{
+			angleDeg = 270 - (90 - angleDeg);
+		}
+		if(GetMouseX() <= origin.x && GetMouseY() <= origin.y)
+		{
+			angleDeg = 270 - (90 - angleDeg);
+		}
+		cout << "angledeg " << angleDeg << endl;
 
 		DrawCircleGradient(baPos[0], baPos[1], baRadius, RED, GOLD);
 		DrawLineEx(origin, newPos, 2.0f, YELLOW);
