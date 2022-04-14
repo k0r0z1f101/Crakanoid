@@ -1,10 +1,13 @@
 #include "raylib.h"
 #include "crakanoid.h"
+#include "tools.h"
+
+using namespace tools;
 
 namespace crakanoid
 {
-	const int Spaceship::ssStartX = screenWidth/2;
-	const int Spaceship::ssHeight = 20;
+	const float Spaceship::ssStartX = screenWidth/2;
+	const float Spaceship::ssHeight = 20;
 
 	Spaceship::Spaceship()
 	{
@@ -20,20 +23,20 @@ namespace crakanoid
 		Rectangle rec;
 		rec.height = ssHeight;
 		rec.width = ssWidth;
-		rec.x = ssPos[0];
-		rec.y = ssPos[1];
+		rec.x = ssPos.x;
+		rec.y = ssPos.y;
 		Vector2 ori = { 0.0f, 0.0f };
 		DrawRectanglePro(rec, ori, 0.0f, RED);
 	}
 	void Spaceship::MoveShip()
 	{
 		if(IsKeyDown(KEY_A))
-			ssPos[0] -= ssSpeed;
+			ssPos.x -= ssSpeed;
 
 		if(IsKeyDown(KEY_D))
-			ssPos[0] += ssSpeed;
+			ssPos.x += ssSpeed;
 	}
-	vector<int>& Spaceship::GetShipPosition()
+	Vector2& Spaceship::GetShipPosition()
 	{
 		return ssPos;
 	}
@@ -41,25 +44,47 @@ namespace crakanoid
 	{
 		return ssWidth;
 	}
+	float Spaceship::GetShipHeight()
+	{
+		return ssHeight;
+	}
 	Spaceship::~Spaceship()
 	{
 
 	}
 
-	//Bloc definitions
-	const Vector2 Bloc::blSize = { 10.0f, 5.0f }; //h size, v size
-	Bloc::Bloc()
+	//Block definitions
+	Block::Block()
 	{
-		blLifePoint = 1;
+		blColor = blockColors[0]; //block color
+		blLifePoint = 1; //block life point before being destroyed
+		blPos = { 30.0f, 30.0f };
 	}
 
-	Bloc::Bloc(int x, int y, BlocColor col)
+	Block::Block(float x, float y, BlockColor col)
 	{
-		vector<int> blPos = { x, y }; //bloc position (h pos, v pos)
-		blColor = blocColors[col]; //bloc color
-		blLifePoint = col; //bloc life point before being destroyed
+		blPos = { x, y }; //block position (h pos, v pos)
+		blColor = blockColors[col]; //block color
+		blLifePoint = col; //block life point before being destroyed
 	}
-	Bloc::~Bloc()
+
+	Vector2 Block::getPosition()
+	{
+		return blPos;
+	}
+
+	Color Block::getColor()
+	{
+		return blColor;
+	}
+
+	void Block::setPosition(float x, float y)
+	{
+		blPos.x = x;
+		blPos.y = y;
+	}
+
+	Block::~Block()
 	{
 
 	}
@@ -71,16 +96,16 @@ namespace crakanoid
 	Ball::Ball()
 	{
 		baPos = { screenWidth / 2, screenHeight / 2 };
-		baVelocity = 1;
+		baVelocity = 1.0f;
 		baAngle = 0.0f;
 		baWeight = 1;
 		baLifeTime = 0.0f;
 		baSticky = false;
 	}
 
-	Ball::Ball(Spaceship& paddle, vector<int> pos, int velocity, float angle, int weight, float age)
+	Ball::Ball(Spaceship& ship, Vector2 pos, float velocity, float angle, int weight, float age)
 	{
-		baPos = { paddle.GetShipPosition()[0] + paddle.GetShipWidth() / 2, paddle.GetShipPosition()[1] - baRadius };
+		baPos = { ship.GetShipPosition().x + ship.GetShipWidth() / 2, ship.GetShipPosition().y - baRadius };
 		baVelocity = velocity;
 		baAngle = angle;
 		baWeight = weight;
@@ -88,72 +113,133 @@ namespace crakanoid
 		baSticky = true;
 	}
 
-	void Ball::MoveBall(Spaceship& paddle)
+	void Ball::MoveBall(Spaceship& ship)
 	{
+		if(IsKeyDown(KEY_SPACE))
+			baSticky = false;
 		if(baSticky)
 		{
-			baPos = { paddle.GetShipPosition()[0] + paddle.GetShipWidth() / 2, paddle.GetShipPosition()[1] - baRadius };
+			baPos = { ship.GetShipPosition().x + ship.GetShipWidth() / 2, ship.GetShipPosition().y - baRadius };
+		}
+		else
+		{
+			float angle = getRadianFromDegree();
+			float cosx = cosf(angle);
+			float siny = sinf(angle);
+			cout << "x: " << (baVelocity*cosx) << endl;
+			cout << "y: " << (baVelocity*siny) << endl;
+			if(baAngle < 90 || baAngle > 270)
+			{
+				baPos.x += baVelocity*cosx;
+				baPos.y += baVelocity*siny;
+			}
+			else
+			{
+				baPos.x -= baVelocity*cosx;
+				baPos.y += baVelocity*siny;
+			}
 		}
 	}
 
 	void Ball::DrawBall()
 	{
-		//Draw a line that points to the mouse cursor
-		Vector2 origin = { float(baPos[0]), float(baPos[1]) };
-		Vector2 toZero = { GetMouseX() - float(baPos[0]), GetMouseY() - float(baPos[1]) };
-
-		float magnitude = sqrtf(pow(toZero.x,2) + pow(toZero.y,2));
-
-		float xNorm = toZero.x / magnitude;
-		float yNorm = toZero.y / magnitude;
-
-		float magnitude2 = sqrtf(pow(origin.x,2) + pow(origin.y,2));
-
-
-		float newX = xNorm * baLineSight;
-		float newY = yNorm * baLineSight;
-		Vector2 newPos = { float(baPos[0]) + newX, float(baPos[1]) + newY };
-
-		//calculate new angle of ball
-		baAngle = asinf(toZero.y / magnitude);
-
-
-		cout << "toZero.y " << toZero.y << endl;
-		cout << "magnitude " << magnitude << endl;
-		cout << "angle " << baAngle << endl;
-		cout << "radian to degree " << baAngle * RAD2DEG << endl;
-		cout << "mouseX > origin.x " << (GetMouseX() > origin.x) << endl;
-		cout << "mouseY > origin.y " << (GetMouseY() > origin.y) << endl;
-
-		float angleDeg = baAngle * RAD2DEG;
-		if(GetMouseX() > origin.x && GetMouseY() <= origin.y)
+		if(baSticky)
 		{
-			angleDeg = abs(angleDeg);
-		}
-		if(GetMouseX() > origin.x && GetMouseY() > origin.y)
-		{
-			angleDeg = 360 - angleDeg;
-		}
-		if(GetMouseX() <= origin.x && GetMouseY() > origin.y)
-		{
-			angleDeg = 270 - (90 - angleDeg);
-		}
-		if(GetMouseX() <= origin.x && GetMouseY() <= origin.y)
-		{
-			angleDeg = 270 - (90 - angleDeg);
-		}
-		cout << "angledeg " << angleDeg << endl;
+			//Draw a line that points to the mouse cursor
+			Vector2 toZero = { GetMouseX() - baPos.x, GetMouseY() - baPos.y };
 
-		DrawCircleGradient(baPos[0], baPos[1], baRadius, RED, GOLD);
-		DrawLineEx(origin, newPos, 2.0f, YELLOW);
+			float magnitude = getMagnitude(toZero);
 
-//		cout << "mouse x: " << GetMouseX() << ", mouse y: " << GetMouseY() << endl;
-//		cout << "mouse x - center ball x: " << GetMouseX() - baPos[0] << ", mouse y - center ball y: " << GetMouseY() - baPos[1] << endl;
-//		cout << "center ball x: " << baPos[0] << ", center ball y: " << baPos[1] << endl;
-//		cout << "toZero x: " << toZero.x << ", toZero y: " << toZero.y << endl;
-//		cout << "magnitude: " << magnitude << endl;
-//		cout << "xNorm: " << xNorm << "yNorm: " << yNorm << endl;
-//		cout << "newX: " << newX << "newY: " << newY << endl;
+			Vector2 toZeroNorm = normalizeVector(toZero);
+
+			float newX = toZeroNorm.x * baLineSight;
+			float newY = toZeroNorm.y * baLineSight;
+			Vector2 newPos = { baPos.x + newX, baPos.y + newY };
+
+			getAngleToMousePos(toZero, magnitude);
+			cout << "1: " << baAngle << endl;
+	//		cout << "2: " << baAngle * RAD2DEG << endl;
+	//		cout << "3: " << asinf(toZero.y / magnitude) << endl;
+	//		cout << "4: " << getRadianFromDegree() << endl;
+			DrawLineEx(baPos, newPos, 2.0f, YELLOW);
+		}
+		DrawCircleGradient(baPos.x, baPos.y, baRadius, RED, GOLD);
+	}
+
+	//calculate new angle of ball in Degree, counterclockwise, starting from east
+	void Ball::getAngleToMousePos(Vector2& toZero, float& mag)
+	{
+		baAngle = asinf(toZero.y / mag) * RAD2DEG;
+
+//		cout << "rad2deg 2: " << baAngle << endl;
+
+		if(GetMouseX() > baPos.x && GetMouseY() <= baPos.y)
+		{
+			baAngle = fabs(baAngle);
+		}
+		if(GetMouseX() > baPos.x && GetMouseY() > baPos.y)
+		{
+			baAngle = 360 - baAngle;
+		}
+		if(GetMouseX() <= baPos.x && GetMouseY() > baPos.y)
+		{
+			baAngle = 270 - (90 - baAngle);
+		}
+		if(GetMouseX() <= baPos.x && GetMouseY() <= baPos.y)
+		{
+			baAngle = 270 - (90 - baAngle);
+		}
+	}
+
+	//calculate angle in radian of ball from DEGREE baAngle
+	float Ball::getRadianFromDegree()
+	{
+		float angle = baAngle;
+
+		if(baAngle < 90) //1er cadran
+		{
+			angle = -angle;
+		}
+		if(baAngle > 270)
+		{
+			angle = 360.0f - angle;
+		}
+		if(baAngle > 180 && baAngle < 270)
+		{
+			angle = angle - 180.0f;
+		}
+		if(baAngle > 90 && baAngle < 180)
+		{
+			angle = angle - 180.0f;
+		}
+
+		return angle = angle * DEG2RAD;
+	}
+
+	float Ball::getAngle()
+	{
+		return baAngle;
+	}
+
+	Vector2 Ball::getPosition()
+	{
+		return baPos;
+	}
+
+	void Ball::setPosition(float x, float y)
+	{
+		baPos.x = x;
+		baPos.y = y;
+	}
+
+	void Ball::setAngle(float angle)
+	{
+		baAngle = angle;
+	}
+
+	void Ball::adjustSpeed(float speed)
+	{
+		baVelocity += speed;
 	}
 
 	Ball::~Ball()
