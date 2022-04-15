@@ -32,6 +32,7 @@ namespace crakanoid
 		Vector2 ssPos; //position of the spaceship (h pos, v pos)
 		int ssSpeed; //speed in pixel of lateral movement
 		int ssWidth; //horizontal size
+		int ssBall; //lives of the player, number of balls left
 		vector<Upgrade> ssUpgrades; //current active upgrades
 		vector<Consumable> ssConsumables; //inventory of one-time use items available
 
@@ -42,6 +43,8 @@ namespace crakanoid
 		Vector2& GetShipPosition();
 		int& GetShipWidth();
 		float GetShipHeight();
+		int GetBallsLeft();
+		int LoseBall(int ball);
 		~Spaceship();
 	};
 
@@ -60,7 +63,7 @@ namespace crakanoid
 	class Block
 	{
 		Vector2 blPos; //h pos, v pos
-		float blLifePoint; //block life point before being destroyed
+		int blLifePoint; //block life point before being destroyed
 		Color blColor; //block color
 
 	public:
@@ -68,7 +71,11 @@ namespace crakanoid
 		Block(float x, float y, BlockColor col);
 		Vector2 getPosition();
 		Color getColor();
+		Vector2 getSize();
+		int getLifePoint();
+		int loseLifePoint(int life);
 		void setPosition(float x, float y);
+		void setColor(Color color);
 		~Block();
 	};
 
@@ -93,9 +100,12 @@ namespace crakanoid
 		float getRadianFromDegree(); //return angle in radian from a ball rotation angle in degree
 		float getAngle();
 		Vector2 getPosition();
+		bool getSticky();
+		float getRadius();
 		void setPosition(float x, float y);
 		void setAngle(float angle);
 		void adjustSpeed(float speed);
+		void setSticky(bool);
 		~Ball();
 
 	};

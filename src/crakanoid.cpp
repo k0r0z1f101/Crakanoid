@@ -14,6 +14,7 @@ namespace crakanoid
 		ssWidth = 50; //starting horizontal size
 		ssPos = { ssStartX - (ssWidth / 2), screenHeight - 40 }; //position of spaceship (h pos, v pos)
 		ssSpeed = 5; //speed in pixel of lateral movement
+		ssBall = 3; //balls left before game over
 		ssUpgrades = {}; //initializing upgrades list
 		ssConsumables = {}; // initializing consumables inventory
 
@@ -48,6 +49,15 @@ namespace crakanoid
 	{
 		return ssHeight;
 	}
+	int Spaceship::GetBallsLeft()
+	{
+		return ssBall;
+	}
+	int Spaceship::LoseBall(int ball)
+	{
+		ssBall -= ball;
+		return ssBall;
+	}
 	Spaceship::~Spaceship()
 	{
 
@@ -78,10 +88,31 @@ namespace crakanoid
 		return blColor;
 	}
 
+	Vector2 Block::getSize()
+	{
+		return blSize;
+	}
+
+	int Block::getLifePoint()
+	{
+		return blLifePoint;
+	}
+
+	int Block::loseLifePoint(int life)
+	{
+		blLifePoint -= life;
+		return blLifePoint;
+	}
+
 	void Block::setPosition(float x, float y)
 	{
 		blPos.x = x;
 		blPos.y = y;
+	}
+
+	void Block::setColor(Color color)
+	{
+		blColor = color;
 	}
 
 	Block::~Block()
@@ -126,8 +157,6 @@ namespace crakanoid
 			float angle = getRadianFromDegree();
 			float cosx = cosf(angle);
 			float siny = sinf(angle);
-			cout << "x: " << (baVelocity*cosx) << endl;
-			cout << "y: " << (baVelocity*siny) << endl;
 			if(baAngle < 90 || baAngle > 270)
 			{
 				baPos.x += baVelocity*cosx;
@@ -157,10 +186,6 @@ namespace crakanoid
 			Vector2 newPos = { baPos.x + newX, baPos.y + newY };
 
 			getAngleToMousePos(toZero, magnitude);
-			cout << "1: " << baAngle << endl;
-	//		cout << "2: " << baAngle * RAD2DEG << endl;
-	//		cout << "3: " << asinf(toZero.y / magnitude) << endl;
-	//		cout << "4: " << getRadianFromDegree() << endl;
 			DrawLineEx(baPos, newPos, 2.0f, YELLOW);
 		}
 		DrawCircleGradient(baPos.x, baPos.y, baRadius, RED, GOLD);
@@ -170,8 +195,6 @@ namespace crakanoid
 	void Ball::getAngleToMousePos(Vector2& toZero, float& mag)
 	{
 		baAngle = asinf(toZero.y / mag) * RAD2DEG;
-
-//		cout << "rad2deg 2: " << baAngle << endl;
 
 		if(GetMouseX() > baPos.x && GetMouseY() <= baPos.y)
 		{
@@ -221,6 +244,16 @@ namespace crakanoid
 		return baAngle;
 	}
 
+	bool Ball::getSticky()
+	{
+		return baSticky;
+	}
+
+	float Ball::getRadius()
+	{
+		return baRadius;
+	}
+
 	Vector2 Ball::getPosition()
 	{
 		return baPos;
@@ -240,6 +273,11 @@ namespace crakanoid
 	void Ball::adjustSpeed(float speed)
 	{
 		baVelocity += speed;
+	}
+
+	void Ball::setSticky(bool sticky)
+	{
+		baSticky = sticky;
 	}
 
 	Ball::~Ball()
