@@ -39,4 +39,19 @@ namespace sound
 		void changeVolume(); //change volume of music
 		~SongPlayer();
 	};
+
+	//sample players (short length sounds)
+	class SamplePlayer
+	{
+		string samplePlayPath; //path to the sound being played
+		static const string sapPATH; //path to the sound folder
+		Sound samplePlayed; //sample being played
+		float soundVolume; //volume of the sounds multichannel
+
+	public:
+		SamplePlayer();
+		void playSample(string path);
+		void changeVolume();
+		~SamplePlayer();
+	};
 }

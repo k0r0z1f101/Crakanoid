@@ -8,7 +8,7 @@ using std::cout;   using std::cin;
 using std::endl;   using std::string;
 using std::vector; using std::array;
 
-const int screenWidth = 1600;
+const int screenWidth = 1000;
 const int screenHeight = 900;
 
 namespace crakanoid
@@ -16,7 +16,15 @@ namespace crakanoid
 	//Player Ship Upgrades
 	class Upgrade
 	{
-
+		Vector2 upPos; //position of the upgrade, h pos, v pos
+		bool upOnShip; //true if the upgrade has been caught by the ship
+	public:
+		Upgrade();
+		Vector2 getPos();
+		void setPos(float x, float y);
+		bool getOnShip();
+		void setOnShip();
+		~Upgrade();
 	};
 
 	class Consumable
@@ -29,10 +37,12 @@ namespace crakanoid
 	{
 		static const float ssStartX; //starting horizontal position
 		static const float ssHeight; //height of the ship
+		static const int ssBlockUpgrade; //number of blocks to destroyed to spawn an upgrade
 		Vector2 ssPos; //position of the spaceship (h pos, v pos)
-		int ssSpeed; //speed in pixel of lateral movement
+		float ssSpeed; //speed in pixel of lateral movement
 		int ssWidth; //horizontal size
 		int ssBall; //lives of the player, number of balls left
+		int ssBlockDestroyed; //number of blocks destroyed without dying
 		vector<Upgrade> ssUpgrades; //current active upgrades
 		vector<Consumable> ssConsumables; //inventory of one-time use items available
 
@@ -44,7 +54,11 @@ namespace crakanoid
 		int& GetShipWidth();
 		float GetShipHeight();
 		int GetBallsLeft();
+		float GetShipSpeed();
 		int LoseBall(int ball);
+		void AdjustSpeed(float speed);
+		void SetSpeed(float speed);
+		void DestroyBlock();
 		~Spaceship();
 	};
 
@@ -85,7 +99,7 @@ namespace crakanoid
 		static const int baRadius; //radius of the ball in pixels
 		static const float baLineSight; //length in pixels of the line that points to the mouse
 		Vector2 baPos; //position of the ball (h pos, v pos)
-		float baVelocity; //speed of the ball
+		float baSpeed; //speed of the ball
 		float baAngle; //angle of the ball
 		int baWeight; //weight of the ball
 		float baLifeTime; //life of the ball in seconds
@@ -105,6 +119,7 @@ namespace crakanoid
 		void setPosition(float x, float y);
 		void setAngle(float angle);
 		void adjustSpeed(float speed);
+		void setSpeed(float speed);
 		void setSticky(bool);
 		~Ball();
 

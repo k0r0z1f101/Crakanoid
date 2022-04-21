@@ -3,7 +3,7 @@
 
 namespace sound
 {
-	const string SongPlayer::spPATH = "../resources/"; //path to the song folder
+	const string SongPlayer::spPATH = "/home/wa/git/Crakanoid/resources/"; //path to the song folder
 
 	SongPlayer::SongPlayer()
 	{
@@ -104,5 +104,28 @@ namespace sound
 	SongPlayer::~SongPlayer()
 	{
 
+	}
+
+	//Sample Player definitions
+
+	const string SamplePlayer::sapPATH = "/home/wa/git/Crakanoid/resources/sound/"; //path to the sample folder
+
+	SamplePlayer::SamplePlayer()
+	{
+
+	}
+	void SamplePlayer::playSample(string path)
+	{
+		samplePlayed = LoadSound((sapPATH + path).c_str());
+		PlaySoundMulti(samplePlayed);
+	}
+	void changeVolume()
+	{
+
+	}
+	SamplePlayer::~SamplePlayer()
+	{
+	    StopSoundMulti();       // We must stop the buffer pool before unloading
+		UnloadSound(samplePlayed);     // Unload sound data
 	}
 }
