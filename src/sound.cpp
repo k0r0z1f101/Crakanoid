@@ -55,6 +55,15 @@ namespace sound
 		songElapsedTime = 0.0f; //reset the time the current song has played for
 	}
 
+	void SongPlayer::playSongPath(string path)
+	{
+		songPlayPath = path;
+		songPlayed = LoadMusicStream((spPATH + songPlayPath).c_str()); //load the song from the path to a private member
+		SetMusicVolume(songPlayed, musicVolume);
+		PlayMusicStream(songPlayed); //start the loaded song
+		songElapsedTime = 0.0f; //reset the time the current song has played for
+	}
+
 	void SongPlayer::updateStream()
 	{
 		float currentElapsed = GetMusicTimePlayed(songPlayed); //get the current time the song has played for
@@ -86,6 +95,7 @@ namespace sound
 
 	void SongPlayer::changeVolume()
 	{
+		cout << "test";
 		if(IsKeyPressed(KEY_W))
 			musicVolume += 0.05f;
 		else if (IsKeyDown(KEY_W))
@@ -100,6 +110,14 @@ namespace sound
 
 		SetMusicVolume(songPlayed, musicVolume);
 	}
+
+	void SongPlayer::stopPlaying()
+	{
+		StopMusicStream(songPlayed);
+		songPlayPath = "victory/Arkanoid Piano Victory Theme.mp3";
+		songElapsedTime = 0.0f;
+	}
+
 
 	SongPlayer::~SongPlayer()
 	{

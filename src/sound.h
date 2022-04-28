@@ -33,10 +33,12 @@ namespace sound
 		SongPlayer();
 		void randomSongPath(); //return a random song path that hasn't played yet from the song folder
 		void playSong(); //play the song in songPlayPath
+		void playSongPath(string path); //play the song from path
 		void updateStream(); //update the audio stream
 		bool isSongPlaying(); //return true if the song is currently playing
 		string getSongPlaying(); //return the path to the song playing
 		void changeVolume(); //change volume of music
+		void stopPlaying();
 		~SongPlayer();
 	};
 
