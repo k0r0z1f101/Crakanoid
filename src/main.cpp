@@ -14,140 +14,6 @@ int main(void)
 {
 	srand(time(0));
 
-
-    //LEVEL 1
-    array<int,LEVELONELINES> levelOneBlocksPerLine = { 30, 30, 30 };
-
-    array<Block,LEVELONELINES> levelOneBlockArray = {
-    		Block({0.0f, 0.0f}, B_BLUE),
-    		Block({0.0f, 0.0f}, B_GREEN),
-    		Block({0.0f, 0.0f}, B_RED)
-    };
-
-    int levelOneStartingBlocks = {};
-    for(int i = 0;i < LEVELONELINES; ++i)
-    	levelOneStartingBlocks += levelOneBlocksPerLine[i];
-
-//    vector<Block> blocks;
-//	for(int i = 0; i < LEVELONELINES; i++)
-//	{
-//		for(int j = 0; j < levelOneBlocksPerLine[i]; ++j)
-//		{
-//			float newX = PLAYSCREEN_MARGIN + (blSize.x * j) + (2.0f * j);
-//			float newY = PLAYSCREEN_MARGIN + (blSize.y * i) + (2.0f * i);
-//			Block newBlock = levelOneBlockArray[i];
-//			newBlock.setPosition(newX, newY);
-//			blocks.push_back(newBlock);
-////			cout << "i j " << i << " " << j << endl;
-////			cout << "newX newY " << newX << " " << newY << endl;
-//		}
-//	}
-
-	//LEVEL INTRO
-    vector<vector<int>> levelIntro = 	{ { 30 }, { 30 }, { 30 }, { 30 }, { 30 }, { 1, 3, 2, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 3, 2, 1 } };
-    vector<vector<BlockColor>> introBlockColors = { { B_NONE }, { B_NONE }, { B_NONE }, { B_NONE }, { B_NONE }, { B_NONE, B_RED, B_BLUE, B_NONE, B_GREEN, B_RED, B_NONE, B_RED, B_NONE, B_BLUE, B_NONE, B_RED, B_NONE, B_RED, B_GREEN, B_BLUE, B_RED, B_NONE } };
-    levelIntro.push_back({ 1,1,2,1,1,1,1,1,1,2,2,1,1,1,1,3,1,1,1,1,1,1,1,1,1 });
-    introBlockColors.push_back( { B_NONE, B_RED, B_NONE, B_BLUE, B_NONE, B_BLUE, B_GREEN, B_NONE, B_GREEN, B_RED, B_NONE, B_BLUE, B_NONE, B_BLUE, B_NONE, B_RED, B_GREEN, B_NONE, B_GREEN, B_NONE, B_BLUE, B_NONE, B_RED, B_NONE, B_RED });
-    levelIntro.push_back({ 1,1,2,2,1,3,2,2,3,1,3,1,1,1,1,1,1,1,1,1 });
-    introBlockColors.push_back( { B_NONE, B_RED, B_NONE, B_BLUE, B_NONE, B_GREEN, B_RED, B_NONE, B_BLUE, B_NONE, B_RED, B_GREEN, B_NONE, B_GREEN, B_NONE, B_BLUE, B_NONE, B_RED, B_NONE, B_RED } );
-    levelIntro.push_back({ 1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,2,1 });
-    introBlockColors.push_back( { B_NONE, B_RED, B_BLUE, B_NONE, B_BLUE, B_GREEN, B_NONE, B_GREEN, B_RED, B_NONE, B_RED, B_NONE, B_BLUE, B_NONE, B_BLUE, B_NONE, B_RED, B_NONE, B_RED, B_GREEN, B_BLUE, B_RED, B_NONE } );
-
-//    vector<Block> blocks;
-//    for(size_t i = {}; i < levelIntro.size(); ++i)
-//    {
-//		int blockInLine = {};
-//    	for(size_t j = {}; j < levelIntro[i].size(); ++j)
-//		{
-//    		for(int k = {}; k < levelIntro[i][j]; ++k)
-//    		{
-//    			float newX = PLAYSCREEN_MARGIN + (blSize.x * blockInLine) + (2.0f * blockInLine);
-//    			float newY = PLAYSCREEN_MARGIN + (blSize.y * i) + (2.0f * i);
-//    			BlockColor newColor = introBlockColors[i][j];
-//				blocks.push_back(Block(newX, newY, newColor));
-//    			++blockInLine;
-//    		}
-//		}
-//    }
-
-    //LEVEl ONE
-    vector<vector<int>> levelOne = 	{ { 30 }, { 30 }, { 30 }, { 30 } };
-    vector<vector<BlockColor>> levelOneBlockColors = { { B_NONE }, { B_BLUE }, { B_GREEN }, { B_RED } };
-    vector<Block> blocks;
-    int levelOneNeededToWin = {};
-	for(size_t i = {}; i < levelOne.size(); ++i)
-	{
-		int blockInLine = {};
-		for(size_t j = {}; j < levelOne[i].size(); ++j)
-		{
-			for(int k = {}; k < levelOne[i][j]; ++k)
-			{
-				float newX = PLAYSCREEN_MARGIN + (BLOCK_SIZE.x * blockInLine) + (2.0f * blockInLine);
-				float newY = PLAYSCREEN_MARGIN + (BLOCK_SIZE.y * i) + (2.0f * i);
-				BlockColor newColor = levelOneBlockColors[i][j];
-				blocks.push_back(Block({newX, newY}, newColor));
-				levelOneNeededToWin += int(newColor) != -1 && int(newColor) < 3 ? 1 : 0;
-				++blockInLine;
-			}
-		}
-	}
-
-
-    //LEVEl TWO
-    vector<vector<int>> levelTwo = 	{ { 30 }, { 30 }, { 30 }, { 6, 4, 3, 4, 3, 4 }, { 6, 4, 3, 4, 3, 4 }, { 6, 4, 3, 4, 3, 4 }, { 6, 4, 3, 4, 3, 4 }, { 30 }, { 30 } };
-    vector<vector<BlockColor>> levelTwoBlockColors = { { B_NONE }, { B_NONE }, { B_NONE }, { B_NONE, B_RED, B_NONE, B_GREEN, B_NONE, B_RED } };
-    levelTwoBlockColors.push_back({ B_NONE, B_RED, B_NONE, B_GREEN, B_NONE, B_RED });
-    levelTwoBlockColors.push_back({ B_NONE, B_RED, B_NONE, B_GREEN, B_NONE, B_RED });
-    levelTwoBlockColors.push_back({ B_NONE, B_RED, B_NONE, B_GREEN, B_NONE, B_RED });
-    levelTwoBlockColors.push_back( { B_NONE });
-    levelTwoBlockColors.push_back( { B_NONE });
-    levelTwo.push_back({ 9,1,1,1,1,1,1,1,1,1,1,1});
-    levelTwoBlockColors.push_back({ B_NONE, B_SILVER, B_NONE, B_SILVER, B_NONE, B_SILVER, B_NONE, B_SILVER, B_NONE, B_SILVER, B_NONE, B_SILVER});
-    int levelTwoNeededToWin = {};
-//    vector<Block> blocks;
-//	for(size_t i = {}; i < levelTwo.size(); ++i)
-//	{
-//		int blockInLine = {};
-//		for(size_t j = {}; j < levelTwo[i].size(); ++j)
-//		{
-//			for(int k = {}; k < levelTwo[i][j]; ++k)
-//			{
-//				float newX = PLAYSCREEN_MARGIN + (blSize.x * blockInLine) + (2.0f * blockInLine);
-//				float newY = PLAYSCREEN_MARGIN + (blSize.y * i) + (2.0f * i);
-//				BlockColor newColor = levelTwoBlockColors[i][j];
-//				blocks.push_back(Block(newX, newY, newColor));
-//				levelTwoNeededToWin += int(newColor) != -1 && int(newColor) < 3 ? 1 : 0;
-//				++blockInLine;
-//			}
-//		}
-//	}
-//	cout << "level2: " << levelTwoNeededToWin << endl;
-
-
-    //LEVEl ONEBRICK
-    vector<vector<int>> levelTest = 	{ { 30 }, { 30 }, { 30 }, { 14, 1 } };
-    vector<vector<BlockColor>> levelTestBlockColors = { { B_NONE }, { B_NONE }, { B_NONE }, { B_NONE, B_RED } };
-    int levelTestNeededToWin = {};
-//    vector<Block> blocks;
-//	for(size_t i = {}; i < levelTest.size(); ++i)
-//	{
-//		int blockInLine = {};
-//		for(size_t j = {}; j < levelTest[i].size(); ++j)
-//		{
-//			for(int k = {}; k < levelTest[i][j]; ++k)
-//			{
-//				float newX = PLAYSCREEN_MARGIN + (BLOCK_SIZE.x * blockInLine) + (2.0f * blockInLine);
-//				float newY = PLAYSCREEN_MARGIN + (BLOCK_SIZE.y * i) + (2.0f * i);
-//				BlockColor newColor = levelTestBlockColors[i][j];
-//				blocks.push_back(Block({newX, newY}, newColor));
-//				levelTwoNeededToWin += int(newColor) != -1 && int(newColor) < 3 ? 1 : 0;
-//				++blockInLine;
-//			}
-//		}
-//	}
-//	cout << "leveltest: " << levelTestNeededToWin << endl;
-
-
     // Initialization
     //--------------------------------------------------------------------------------------
 
@@ -156,10 +22,15 @@ int main(void)
     InitAudioDevice();              // Initialize audio device
     SetAudioStreamBufferSizeDefault(MAX_SAMPLES_PER_UPDATE);
 
+    Font font = LoadFont("resources/fonts/Daco_3904520.png");
+
+    int levelInd = 0;
+    Level currentLevel = Level(levelInd);
+
     int _score = {};
     int hitInARow = {};
     int scoreMultiplierThreshold = 10;
-    int blocksLeftToWin = levelOneNeededToWin;
+    int blocksLeftToWin = currentLevel.GetNeededToWin();
 
     SongPlayer jukebox;
     jukebox.randomSongPath();
@@ -168,7 +39,7 @@ int main(void)
     SamplePlayer sampler;
 
     Spaceship craker;
-    cout << "here " << craker.GetShipPosition().x << endl;
+    //cout << "here " << craker.GetShipPosition().x << endl;
     sampler.playSample("newball.wav");
 
     vector<Ball> balls;
@@ -308,7 +179,7 @@ int main(void)
     		}
     		else
     		//collision with ship
-    		if((balls[i].GetPosition().y + balls[i].GetRadius()) > craker.GetShipPosition().y && (balls[i].GetPosition().y + balls[i].GetRadius())  < (craker.GetShipPosition().y + craker.GetShipHeight()) && (balls[i].GetPosition().x - balls[i].GetRadius()) < (craker.GetShipPosition().x + craker.GetShipWidth()) && (balls[i].GetPosition().x + balls[i].GetRadius()) > craker.GetShipPosition().x)
+    		if((balls[i].GetPosition().y + balls[i].GetRadius()) > craker.GetShipPosition().y && (balls[i].GetPosition().y + balls[i].GetRadius())  < (craker.GetShipPosition().y + craker.GetShipHeight()) && balls[i].GetPosition().x < (craker.GetShipPosition().x + craker.GetShipWidth()) && balls[i].GetPosition().x > craker.GetShipPosition().x)
     		{
     			if(craker.GetUpgrade().GetType() != 3)
     			{
@@ -316,20 +187,21 @@ int main(void)
 					//get on which side of the ship the ball hit and adjust angle of ball accordingly
 					float newAngle = 360.0f - balls[i].GetAngle();
 					float toCenterShip = ((craker.GetShipPosition().x + craker.GetShipWidth()/2) - balls[i].GetPosition().x)/(craker.GetShipWidth()/2);
-	//    			cout << "distance to center of ship: " << toCenterShip << endl;
-	//    			cout << "ship x: " << craker.GetShipPosition().x << ", y: " << craker.GetShipPosition().y << endl;
-	//    			cout << "ball x: " << balls[i].getPosition().x << ", y: " << balls[i].getPosition().y << endl;
-	//    			cout << "angle of ball: " << balls[i].getAngle() << endl;
-	//    			cout << "awaited angle of ball: " << newAngle << endl;
+//	    			cout << "distance to center of ship: " << toCenterShip << endl;
+//	    			cout << "ship x: " << craker.GetShipPosition().x << ", y: " << craker.GetShipPosition().y << endl;
+//	    			cout << "ball x: " << balls[i].GetPosition().x << ", y: " << balls[i].GetPosition().y << endl;
+//	    			cout << "angle of ball: " << balls[i].GetAngle() << endl;
+//	    			cout << "awaited angle of ball: " << newAngle << endl;
+//	    			cout << "calcul: " << ((newAngle - 10.0f) * fabs(toCenterShip)) << endl;
 					if(toCenterShip < 0.0f) //right of center of ship
-						newAngle = newAngle + (180.0f - newAngle) * toCenterShip;
+						newAngle = newAngle - ((newAngle - 10.0f) * fabs(toCenterShip));
 					else //left of center of ship
-						newAngle = newAngle + (180.0f - newAngle) * toCenterShip;
+						newAngle = newAngle + (170.0f - newAngle) * toCenterShip;
 
 					balls[i].SetAngle(newAngle);
-	//    			cout << "angle of ball: " << balls[i].getAngle() << endl;
+//	    			cout << "angle of ball: " << balls[i].GetAngle() << endl;
 					balls[i].SetPosition({balls[i].GetPosition().x, craker.GetShipPosition().y - balls[i].GetRadius()});
-	//    			cout << "ball x: " << balls[i].getPosition().x << ", y: " << balls[i].getPosition().y << endl;
+//	    			cout << "ball x: " << balls[i].GetPosition().x << ", y: " << balls[i].GetPosition().y << endl;
 					balls[i].SetSpeed(5.0f);
 					craker.SetSpeed(5.0f);
     			}
@@ -339,21 +211,23 @@ int main(void)
     		else
     		{
 				//collision with blocks
-				for(size_t j = 0; j < blocks.size(); ++j)
+				for(size_t j = 0; j < currentLevel.GetBlocks().size(); ++j)
 				{
 //					cout << "b# " << j << " x: " << blocks[j].getPosition().x << ", b y: " << blocks[j].getPosition().y << endl;
-	        		if(blocks[j].GetLifePoint() <= 0) continue;
+	        		if(currentLevel.GetBlocks()[j].GetLifePoint() <= 0) continue;
 //					cout << "ball x: " << (balls[i].getPosition().x) << endl;
 //					cout << "ball y: " << (balls[i].getPosition().y) << endl;
-					if((balls[i].GetPosition().y - balls[i].GetRadius()) < (blocks[j].GetPosition().y + blocks[j].GetSize().y) && (balls[i].GetPosition().y - balls[i].GetRadius()) > blocks[j].GetPosition().y && (balls[i].GetPosition().x) > blocks[j].GetPosition().x && (balls[i].GetPosition().x) < blocks[j].GetPosition().x + blocks[j].GetSize().x && balls[i].GetAngle() < 180.0f && balls[i].GetAngle() > 0.0f) //bottom
+					if((balls[i].GetPosition().y - balls[i].GetRadius()) < (currentLevel.GetBlocks()[j].GetPosition().y + currentLevel.GetBlocks()[j].GetSize().y) && (balls[i].GetPosition().y - balls[i].GetRadius()) > currentLevel.GetBlocks()[j].GetPosition().y && (balls[i].GetPosition().x) > currentLevel.GetBlocks()[j].GetPosition().x && (balls[i].GetPosition().x) < currentLevel.GetBlocks()[j].GetPosition().x + currentLevel.GetBlocks()[j].GetSize().x && balls[i].GetAngle() < 180.0f && balls[i].GetAngle() > 0.0f) //bottom
 					{
-//						cout << "BLOCK #: " << j << " x: " << blocks[j].getPosition().x << ", b y: " << blocks[j].getPosition().y << " angle: " << balls[i].getAngle() << endl;
+//						cout << "BLOCK #: " << j << " x: " << currentLevel.GetBlocks()[j].getPosition().x << ", b y: " << currentLevel.GetBlocks()[j].getPosition().y << " angle: " << balls[i].getAngle() << endl;
 						craker.AdjustSpeed(-1.0f);
 						balls[i].AdjustSpeed(-1.0f);
-						blocks[j].LoseLifePoint(1);
-						if(blocks[j].GetLifePoint() == 0)
+						//cout << "life b4: " << currentLevel.GetBlocks()[j].GetLifePoint() << endl;
+						currentLevel.GetBlocks()[j].LoseLifePoint(1);
+						//cout << "life after: " << currentLevel.GetBlocks()[j].GetLifePoint() << endl;
+						if(currentLevel.GetBlocks()[j].GetLifePoint() == 0)
 						{
-							_upgrades = craker.DestroyBlock(blocks[j], _upgrades);
+							_upgrades = craker.DestroyBlock(currentLevel.GetBlocks()[j], _upgrades);
 			    		    sampler.playSample("blockdestroyed.wav");
 			    		    --blocksLeftToWin;
 						}
@@ -362,7 +236,7 @@ int main(void)
 						if(craker.GetUpgrade().GetType() != 0)
 						{
 							balls[i].SetAngle(360 - balls[i].GetAngle());
-							balls[i].SetPosition({balls[i].GetPosition().x, blocks[j].GetPosition().y + blocks[j].GetSize().y + balls[i].GetRadius()});
+							balls[i].SetPosition({balls[i].GetPosition().x, currentLevel.GetBlocks()[j].GetPosition().y + currentLevel.GetBlocks()[j].GetSize().y + balls[i].GetRadius()});
 						}
 						if(int(hitInARow / scoreMultiplierThreshold) < int((hitInARow + 1) / scoreMultiplierThreshold))
 						{
@@ -375,15 +249,15 @@ int main(void)
 						++hitInARow;
 					}
 		    		else
-		    		if((balls[i].GetPosition().x - balls[i].GetRadius()) < (blocks[j].GetPosition().x + blocks[j].GetSize().x) && (balls[i].GetPosition().x + balls[i].GetRadius()) > blocks[j].GetPosition().x && (balls[i].GetPosition().y + balls[i].GetRadius()) > blocks[j].GetPosition().y && (balls[i].GetPosition().y - balls[i].GetRadius()) < (blocks[j].GetPosition().y + blocks[j].GetSize().y) && balls[i].GetAngle() < 270.0f && balls[i].GetAngle() > 90.0f) //right
+		    		if((balls[i].GetPosition().x - balls[i].GetRadius()) < (currentLevel.GetBlocks()[j].GetPosition().x + currentLevel.GetBlocks()[j].GetSize().x) && (balls[i].GetPosition().x - balls[i].GetRadius()) > currentLevel.GetBlocks()[j].GetPosition().x && balls[i].GetPosition().y > currentLevel.GetBlocks()[j].GetPosition().y && balls[i].GetPosition().y < (currentLevel.GetBlocks()[j].GetPosition().y + currentLevel.GetBlocks()[j].GetSize().y) && balls[i].GetAngle() < 270.0f && balls[i].GetAngle() > 90.0f) //right
 		    		{
-//						cout << "BALL #: " << j << " x: " << blocks[j].getPosition().x << ", b y: " << blocks[j].getPosition().y << endl;
+//						cout << "BALL #: " << j << " x: " << currentLevel.GetBlocks()[j].getPosition().x << ", b y: " << currentLevel.GetBlocks()[j].getPosition().y << endl;
 						craker.AdjustSpeed(-1.0f);
 						balls[i].AdjustSpeed(-1.0f);
-						blocks[j].LoseLifePoint(1);
-						if(blocks[j].GetLifePoint() == 0)
+						currentLevel.GetBlocks()[j].LoseLifePoint(1);
+						if(currentLevel.GetBlocks()[j].GetLifePoint() == 0)
 						{
-							_upgrades = craker.DestroyBlock(blocks[j], _upgrades);
+							_upgrades = craker.DestroyBlock(currentLevel.GetBlocks()[j], _upgrades);
 			    		    sampler.playSample("blockdestroyed.wav");
 			    		    --blocksLeftToWin;
 						}
@@ -396,7 +270,7 @@ int main(void)
 							else
 							if(balls[i].GetAngle() <= 180.0f)
 								balls[i].SetAngle(180 - balls[i].GetAngle());
-							balls[i].SetPosition({blocks[j].GetPosition().x + blocks[j].GetSize().x + balls[i].GetRadius(), balls[i].GetPosition().y});
+							balls[i].SetPosition({currentLevel.GetBlocks()[j].GetPosition().x + currentLevel.GetBlocks()[j].GetSize().x + balls[i].GetRadius(), balls[i].GetPosition().y});
 						}
 						if(int(hitInARow / scoreMultiplierThreshold) < int((hitInARow + 1) / scoreMultiplierThreshold))
 						{
@@ -409,15 +283,15 @@ int main(void)
 						++hitInARow;
 		    		}
 		    		else
-		    		if((balls[i].GetPosition().x + balls[i].GetRadius()) > blocks[j].GetPosition().x && (balls[i].GetPosition().x + balls[i].GetRadius()) < (blocks[j].GetPosition().x + blocks[j].GetSize().x) && (balls[i].GetPosition().y + balls[i].GetRadius()) > blocks[j].GetPosition().y && (balls[i].GetPosition().y - balls[i].GetRadius()) < (blocks[j].GetPosition().y + blocks[j].GetSize().y) && ((balls[i].GetAngle() < 270.0f && balls[i].GetAngle() > 360.0f) || (balls[i].GetAngle() < 90.0f && balls[i].GetAngle() > 0.0f))) //left
+		    		if((balls[i].GetPosition().x + balls[i].GetRadius()) > currentLevel.GetBlocks()[j].GetPosition().x && (balls[i].GetPosition().x + balls[i].GetRadius()) < (currentLevel.GetBlocks()[j].GetPosition().x + currentLevel.GetBlocks()[j].GetSize().x) && balls[i].GetPosition().y > currentLevel.GetBlocks()[j].GetPosition().y && balls[i].GetPosition().y < (currentLevel.GetBlocks()[j].GetPosition().y + currentLevel.GetBlocks()[j].GetSize().y) && ((balls[i].GetAngle() > 270.0f && balls[i].GetAngle() < 360.0f) || (balls[i].GetAngle() < 90.0f))) //left
 		    		{
-//						cout << "BALL #: " << j << " x: " << blocks[j].getPosition().x << ", b y: " << blocks[j].getPosition().y << endl;
+//						cout << "BALL #: " << j << " x: " << currentLevel.GetBlocks()[j].getPosition().x << ", b y: " << currentLevel.GetBlocks()[j].getPosition().y << endl;
 						craker.AdjustSpeed(-1.0f);
 						balls[i].AdjustSpeed(-1.0f);
-						blocks[j].LoseLifePoint(1);
-						if(blocks[j].GetLifePoint() == 0)
+						currentLevel.GetBlocks()[j].LoseLifePoint(1);
+						if(currentLevel.GetBlocks()[j].GetLifePoint() == 0)
 						{
-							_upgrades = craker.DestroyBlock(blocks[j], _upgrades);
+							_upgrades = craker.DestroyBlock(currentLevel.GetBlocks()[j], _upgrades);
 			    		    sampler.playSample("blockdestroyed.wav");
 			    		    --blocksLeftToWin;
 						}
@@ -430,7 +304,7 @@ int main(void)
 							else
 							if(balls[i].GetAngle() <= 90.0f)
 								balls[i].SetAngle(balls[i].GetAngle() + ((90.0f - balls[i].GetAngle()) * 2));
-							balls[i].SetPosition({blocks[j].GetPosition().x - balls[i].GetRadius(), balls[i].GetPosition().y});
+							balls[i].SetPosition({currentLevel.GetBlocks()[j].GetPosition().x - balls[i].GetRadius(), balls[i].GetPosition().y});
 						}
 						if(int(hitInARow / scoreMultiplierThreshold) < int((hitInARow + 1) / scoreMultiplierThreshold))
 						{
@@ -443,15 +317,15 @@ int main(void)
 						++hitInARow;
 		    		}
 		    		else
-					if((balls[i].GetPosition().y + balls[i].GetRadius()) > blocks[j].GetPosition().y && (balls[i].GetPosition().y + balls[i].GetRadius()) < (blocks[j].GetPosition().y + blocks[j].GetSize().y) && (balls[i].GetPosition().x) > blocks[j].GetPosition().x && (balls[i].GetPosition().x) < blocks[j].GetPosition().x + blocks[j].GetSize().x && balls[i].GetAngle() < 360.0f && balls[i].GetAngle() > 180.0f) //top
+					if((balls[i].GetPosition().y + balls[i].GetRadius()) > currentLevel.GetBlocks()[j].GetPosition().y && (balls[i].GetPosition().y + balls[i].GetRadius()) < (currentLevel.GetBlocks()[j].GetPosition().y + currentLevel.GetBlocks()[j].GetSize().y) && (balls[i].GetPosition().x) > currentLevel.GetBlocks()[j].GetPosition().x && (balls[i].GetPosition().x) < currentLevel.GetBlocks()[j].GetPosition().x + currentLevel.GetBlocks()[j].GetSize().x && balls[i].GetAngle() < 360.0f && balls[i].GetAngle() > 180.0f) //top
 					{
-//						cout << "BLOCK #: " << j << " x: " << blocks[j].getPosition().x << ", b y: " << blocks[j].getPosition().y << " angle: " << balls[i].getAngle() << endl;
+//						cout << "BLOCK #: " << j << " x: " << currentLevel.GetBlocks()[j].getPosition().x << ", b y: " << currentLevel.GetBlocks()[j].getPosition().y << " angle: " << balls[i].getAngle() << endl;
 						craker.AdjustSpeed(-1.0f);
 						balls[i].AdjustSpeed(-1.0f);
-						blocks[j].LoseLifePoint(1);
-						if(blocks[j].GetLifePoint() == 0)
+						currentLevel.GetBlocks()[j].LoseLifePoint(1);
+						if(currentLevel.GetBlocks()[j].GetLifePoint() == 0)
 						{
-							_upgrades = craker.DestroyBlock(blocks[j], _upgrades);
+							_upgrades = craker.DestroyBlock(currentLevel.GetBlocks()[j], _upgrades);
 							sampler.playSample("blockdestroyed.wav");
 			    		    --blocksLeftToWin;
 						}
@@ -460,7 +334,7 @@ int main(void)
 						if(craker.GetUpgrade().GetType() != 0)
 						{
 							balls[i].SetAngle(360 - balls[i].GetAngle());
-							balls[i].SetPosition({balls[i].GetPosition().x, blocks[j].GetPosition().y - balls[i].GetRadius()});
+							balls[i].SetPosition({balls[i].GetPosition().x, currentLevel.GetBlocks()[j].GetPosition().y - balls[i].GetRadius()});
 						}
 						if(int(hitInARow / scoreMultiplierThreshold) < int((hitInARow + 1) / scoreMultiplierThreshold))
 						{
@@ -547,15 +421,31 @@ int main(void)
 //				craker.SetUpgrade(craker.GetUpgrade().SetPos(shipPos));
 //    		}
     	}
-		cout << "destroy " << toDestroy.size() << endl;
+		//cout << "destroy " << toDestroy.size() << endl;
 		for(int i = {}; i < toDestroy.size(); ++i)
 			_upgrades.erase(_upgrades.begin() + toDestroy[i]);
 
-    	cout << blocksLeftToWin << endl;
+    	//cout << blocksLeftToWin << endl;
     	if(blocksLeftToWin == 0)
     	{
     		jukebox.playSongPath("victory/Arkanoid Piano Victory Theme.mp3");
     		blocksLeftToWin = -1;
+    		++levelInd;
+
+    		currentLevel = Level(levelInd);
+
+    		hitInARow = {};
+    		blocksLeftToWin = currentLevel.GetNeededToWin();
+
+    		craker = {};
+			//cout << "here " << craker.GetShipPosition().x << endl;
+			sampler.playSample("newball.wav");
+
+			balls = {};
+			ball1 = Ball(craker.GetShipWidth(), craker.GetShipPosition());
+			balls.push_back(ball1);
+
+			_upgrades = {};
     	}
 
         // Draw
@@ -581,9 +471,9 @@ int main(void)
         		balls[i].DrawBall();
         	}
 
-        	for(size_t i = 0; i < blocks.size(); ++i)
+        	for(size_t i = 0; i < currentLevel.GetBlocks().size(); ++i)
         	{
-        		blocks[i].Draw();
+        		currentLevel.GetBlocks()[i].Draw();
         	}
 
         	//update upgrades
@@ -600,9 +490,9 @@ int main(void)
         		DrawCircleGradient(SCREEN_WIDTH - 90.0f - PLAYSCREEN_MARGIN * 2.0f - i * 20.0f, 10.0f, 6.0f, RED, GOLD);
 
         	//update score display
-    		DrawText(std::__cxx11::to_string(_score).c_str(), SCREEN_WIDTH - PLAYSCREEN_MARGIN * 2.0f, 6.0f, 12.0f, WHITE);
-    		DrawText("x", SCREEN_WIDTH - 50.0f - PLAYSCREEN_MARGIN * 2.0f, 6.0f, 12.0f, WHITE);
-    		DrawText(std::__cxx11::to_string(int((hitInARow / scoreMultiplierThreshold) + 1)).c_str(), SCREEN_WIDTH - 40.0f - PLAYSCREEN_MARGIN * 2.0f, 6.0f, 12.0f, WHITE);
+        	DrawTextEx(font, std::__cxx11::to_string(_score).c_str(), {SCREEN_WIDTH - PLAYSCREEN_MARGIN * 2.0f, 6.0f}, 12.0f, 1.0, WHITE);
+        	DrawTextEx(font, "x", {SCREEN_WIDTH - 50.0f - PLAYSCREEN_MARGIN * 2.0f, 6.0f}, 12.0f, 1.0, WHITE);
+        	DrawTextEx(font, std::__cxx11::to_string(int((hitInARow / scoreMultiplierThreshold) + 1)).c_str(), {SCREEN_WIDTH - 40.0f - PLAYSCREEN_MARGIN * 2.0f, 6.0f}, 12.0f, 1.0, WHITE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------

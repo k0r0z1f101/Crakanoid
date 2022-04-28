@@ -95,7 +95,7 @@ namespace sound
 
 	void SongPlayer::changeVolume()
 	{
-		cout << "test";
+//		cout << "test";
 		if(IsKeyPressed(KEY_W))
 			musicVolume += 0.05f;
 		else if (IsKeyDown(KEY_W))
